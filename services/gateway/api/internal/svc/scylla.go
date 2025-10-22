@@ -5,11 +5,10 @@ import (
 	"github.com/gocql/gocql"
 	"time"
 	"watch-progress-service/services/gateway/api/internal/types"
-	"watch-progress-service/third_party/scylla"
 )
 
 type Scylla struct {
-	client *scylla.Client
+	Db *gocql.Session
 }
 
 func (s *Scylla) GetUserEpisodeUpdateQuery() string {
@@ -21,7 +20,7 @@ func (s *Scylla) GetUserMovieUpdateQuery() string {
 }
 
 func (s *Scylla) SetLastWatchTime(data *types.SetWatchTimeReq) error {
-	batch := s.client.Db.Batch(gocql.LoggedBatch)
+	batch := s.Db.Batch(gocql.LoggedBatch)
 	episodeInserter := s.GetUserEpisodeUpdateQuery()
 	movieInserter := s.GetUserMovieUpdateQuery()
 	t, err := time.Parse(time.RFC3339, data.LastWatchedAt)
@@ -30,14 +29,14 @@ func (s *Scylla) SetLastWatchTime(data *types.SetWatchTimeReq) error {
 	}
 	batch.Query(episodeInserter, t.UnixMicro(), data.EndTime, t, data.UserId, data.MovieId, data.EpisodeId)
 	batch.Query(movieInserter, t.UnixMicro(), data.EpisodeId, data.EndTime, t, data.UserId, data.MovieId)
-	if err := s.client.Db.ExecuteBatch(batch); err != nil {
+	if err := s.Db.ExecuteBatch(batch); err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewScylla(scyllaClient *scylla.Client) *Scylla {
+func NewScylla(scyllaConn *gocql.Session) *Scylla {
 	return &Scylla{
-		scyllaClient,
+		scyllaConn,
 	}
 }

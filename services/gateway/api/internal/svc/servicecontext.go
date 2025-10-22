@@ -17,7 +17,7 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) (*ServiceContext, error) {
-	scyllaClient, err := scylla.NewClient(c.Scylla)
+	scyllaClient, err := scylla.NewScyllaConn(c.Scylla)
 	if err != nil {
 		return nil, err
 	}

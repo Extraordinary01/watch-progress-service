@@ -12,12 +12,7 @@ type Params struct {
 	Consistency gocql.Consistency
 }
 
-type Client struct {
-	Db  *gocql.Session
-	cfg Params
-}
-
-func NewClient(cfg Params) (*Client, error) {
+func NewScyllaConn(cfg Params) (*gocql.Session, error) {
 	var cluster = gocql.NewCluster(cfg.Clusters...)
 	cluster.Keyspace = cfg.Keyspace
 	cluster.Authenticator = gocql.PasswordAuthenticator{
@@ -25,12 +20,9 @@ func NewClient(cfg Params) (*Client, error) {
 		Password: cfg.Password,
 	}
 	cluster.Consistency = cfg.Consistency
-	var session, err = cluster.CreateSession()
+	session, err := cluster.CreateSession()
 	if err != nil {
 		return nil, err
 	}
-	return &Client{
-		session,
-		cfg,
-	}, nil
+	return session, nil
 }
