@@ -1,0 +1,29 @@
+syntax = "v1"
+
+type (
+	messageResp {
+		Message string `json:"message"`
+	}
+)
+
+type (
+	SetWatchTimeReq {
+		userId        int32   `json:"user_id"`
+		movieId       int32   `json:"movie_id"`
+		episodeId     int32   `json:"episode_id"`
+		startTime     float32 `json:"start_time"`
+		endTime       float32 `json:"end_time"`
+		lastWatchedAt string  `json:"last_watched_at"`
+	}
+)
+
+@server (
+	group:      watchProgress
+	prefix:     /api/v1
+	middleware: ApiKeyMiddleware
+)
+service watchProgress {
+	@handler SetLastWatchTime
+	post /set-last-watch-time (SetWatchTimeReq)
+}
+

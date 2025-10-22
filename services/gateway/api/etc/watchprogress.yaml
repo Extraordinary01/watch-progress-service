@@ -1,0 +1,15 @@
+Rest:
+  Name: watchProgress
+  Host: 127.0.0.1
+  Port: 8888
+
+Scylla:
+  Host: localhost
+  Port: 9042
+  Username: cassandra
+  Password: cassandra
+  Keyspace: belet
+  Consistency: 1
+
+ApiKeys:
+  - "SSLN8EZPC0PW2tSKrt5UkIKNGCJNXVju"
