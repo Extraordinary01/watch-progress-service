@@ -4,12 +4,11 @@ Rest:
   Port: 8888
 
 Scylla:
-  Host: localhost
-  Port: 9042
+  Clusters: ["localhost:9042"]
   Username: cassandra
   Password: cassandra
   Keyspace: belet
-  Consistency: 1
+  Consistency: 6
 
 ApiKeys:
   - "SSLN8EZPC0PW2tSKrt5UkIKNGCJNXVju"

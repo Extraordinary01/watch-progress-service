@@ -5,12 +5,11 @@ import (
 )
 
 type Params struct {
-	Host        string
-	Port        uint16
+	Clusters    []string
 	Keyspace    string
 	Username    string
 	Password    string
-	Consistency uint16
+	Consistency gocql.Consistency
 }
 
 type Client struct {
@@ -19,13 +18,13 @@ type Client struct {
 }
 
 func NewClient(cfg Params) (*Client, error) {
-	var cluster = gocql.NewCluster("localhost:9042")
-	cluster.Keyspace = "belet"
+	var cluster = gocql.NewCluster(cfg.Clusters...)
+	cluster.Keyspace = cfg.Keyspace
 	cluster.Authenticator = gocql.PasswordAuthenticator{
-		Username: "cassandra",
-		Password: "cassandra",
+		Username: cfg.Username,
+		Password: cfg.Password,
 	}
-	cluster.Consistency = gocql.One
+	cluster.Consistency = cfg.Consistency
 	var session, err = cluster.CreateSession()
 	if err != nil {
 		return nil, err
