@@ -4,7 +4,6 @@
 package svc
 
 import (
-	"fmt"
 	"github.com/zeromicro/go-zero/rest"
 	"watch-progress-service/services/gateway/api/internal/config"
 	"watch-progress-service/services/gateway/api/internal/middleware"
@@ -17,11 +16,10 @@ type ServiceContext struct {
 	ApiKeyMiddleware rest.Middleware
 }
 
-func NewServiceContext(c config.Config) *ServiceContext {
-	fmt.Println(c.Scylla)
+func NewServiceContext(c config.Config) (*ServiceContext, error) {
 	scyllaClient, err := scylla.NewClient(c.Scylla)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	scyllaLogic := NewScylla(scyllaClient)
@@ -30,5 +28,5 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:           c,
 		Scylla:           scyllaLogic,
 		ApiKeyMiddleware: middleware.NewApiKeyMiddleware(c).Handle,
-	}
+	}, nil
 }

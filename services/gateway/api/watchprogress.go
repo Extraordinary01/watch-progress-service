@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	"watch-progress-service/services/gateway/api/internal/config"
@@ -24,7 +25,11 @@ func main() {
 	server := rest.MustNewServer(c.Rest)
 	defer server.Stop()
 
-	ctx := svc.NewServiceContext(c)
+	ctx, err := svc.NewServiceContext(c)
+	if err != nil {
+		log.Fatalf("Coldn't setup context, error: %s", err)
+	}
+
 	handler.RegisterHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Rest.Host, c.Rest.Port)
