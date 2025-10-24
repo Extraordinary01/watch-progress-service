@@ -15,6 +15,12 @@ type Config struct {
 	Password string
 }
 
+type CHFloat64 float64
+
+func (mf CHFloat64) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("%.7g", mf)), nil
+}
+
 func NewClickhouseConn(ctx context.Context, cfg Config) (driver.Conn, error) {
 	conn, err := clickhouse.Open(&clickhouse.Options{
 		Addr: []string{fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)},

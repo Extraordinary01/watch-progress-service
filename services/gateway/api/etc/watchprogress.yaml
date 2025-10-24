@@ -4,7 +4,7 @@ Rest:
   Port: 8888
 
 Scylla:
-  Clusters: ["localhost:9042"]
+  Clusters: ["192.168.1.161:9042", "192.168.1.162:9042", "192.168.1.163:9042"]
   Username: cassandra
   Password: cassandra
   Keyspace: belet
@@ -14,8 +14,8 @@ ApiKeys:
   - "SSLN8EZPC0PW2tSKrt5UkIKNGCJNXVju"
 
 Clickhouse:
-  Host: localhost
-  Port: 3123
-  Username: belet
-  Password: belet
-  DBName: belet
+  Host: 192.168.1.168
+  Port: 9000
+  Username: admin
+  Password: Belet@2023
+  DBName: default

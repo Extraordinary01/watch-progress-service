@@ -20,6 +20,7 @@ func NewScyllaConn(cfg Params) (*gocql.Session, error) {
 		Password: cfg.Password,
 	}
 	cluster.Consistency = cfg.Consistency
+	cluster.DisableShardAwarePort = true
 	session, err := cluster.CreateSession()
 	if err != nil {
 		return nil, err
