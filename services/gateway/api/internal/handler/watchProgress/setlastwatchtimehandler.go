@@ -4,12 +4,13 @@
 package watchProgress
 
 import (
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
 	"watch-progress-service/services/gateway/api/internal/handler/response"
 	watchProgress "watch-progress-service/services/gateway/api/internal/logic/watchProgress"
 	"watch-progress-service/services/gateway/api/internal/svc"
 	"watch-progress-service/services/gateway/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func SetLastWatchTimeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -19,6 +20,9 @@ func SetLastWatchTimeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			response.NewErrorResponse(http.StatusBadRequest, err.Error(), w)
 			return
 		}
+
+		// TODO: add validation for st <= et, and eps > 0.5.
+		// TODO: add validation for et <= duration.
 		l := watchProgress.NewSetLastWatchTimeLogic(r.Context(), svcCtx)
 		err := l.SetLastWatchTime(&req)
 		if err != nil {

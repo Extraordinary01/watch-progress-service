@@ -5,11 +5,10 @@ import (
 )
 
 type Params struct {
-	Clusters    []string
-	Keyspace    string
-	Username    string
-	Password    string
-	Consistency gocql.Consistency
+	Clusters []string
+	Keyspace string
+	Username string
+	Password string
 }
 
 func NewScyllaConn(cfg Params) (*gocql.Session, error) {
@@ -19,9 +18,9 @@ func NewScyllaConn(cfg Params) (*gocql.Session, error) {
 		Username: cfg.Username,
 		Password: cfg.Password,
 	}
-	cluster.Consistency = cfg.Consistency
+	cluster.Consistency = gocql.LocalQuorum
 	cluster.DisableShardAwarePort = true
-	session, err := cluster.CreateSession()
+	var session, err = cluster.CreateSession()
 	if err != nil {
 		return nil, err
 	}

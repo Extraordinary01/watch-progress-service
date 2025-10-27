@@ -2,27 +2,28 @@ package svc
 
 import (
 	"fmt"
-	"github.com/gocql/gocql"
 	"time"
 	"watch-progress-service/services/gateway/api/internal/types"
+
+	"github.com/gocql/gocql"
 )
 
 type Scylla struct {
 	Db *gocql.Session
 }
 
-func (s *Scylla) GetUserEpisodeUpdateQuery() string {
+func (s *Scylla) getUserEpisodeUpdateQuery() string {
 	return fmt.Sprintf("UPDATE %s USING TIMESTAMP ? SET last_watch_time = ?, last_watched_at = ? WHERE user_id = ? AND movie_id = ? AND episode_id = ?", episodeProgressTable)
 }
 
-func (s *Scylla) GetUserMovieUpdateQuery() string {
+func (s *Scylla) getUserMovieUpdateQuery() string {
 	return fmt.Sprintf("UPDATE %s USING TIMESTAMP ? SET last_episode_id = ?, last_watch_time = ?, last_watched_at = ? WHERE user_id = ? AND movie_id = ?", movieProgressTable)
 }
 
 func (s *Scylla) SetLastWatchTime(data *types.SetWatchTimeReq) error {
-	batch := s.Db.Batch(gocql.LoggedBatch)
-	episodeInserter := s.GetUserEpisodeUpdateQuery()
-	movieInserter := s.GetUserMovieUpdateQuery()
+	batch := s.Db.Batch(gocql.UnloggedBatch)
+	episodeInserter := s.getUserEpisodeUpdateQuery()
+	movieInserter := s.getUserMovieUpdateQuery()
 	t, err := time.Parse(time.RFC3339, data.LastWatchedAt)
 	if err != nil {
 		return err

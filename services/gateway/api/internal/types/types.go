@@ -9,6 +9,7 @@ type SetWatchTimeReq struct {
 	EpisodeId     int32   `json:"episode_id"`
 	StartTime     float32 `json:"start_time"`
 	EndTime       float32 `json:"end_time"`
+	Duration      float32 `json:"duration"`
 	LastWatchedAt string  `json:"last_watched_at"`
 }
 

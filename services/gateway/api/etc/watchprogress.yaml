@@ -8,7 +8,6 @@ Scylla:
   Username: cassandra
   Password: cassandra
   Keyspace: belet
-  Consistency: 6
 
 ApiKeys:
   - "SSLN8EZPC0PW2tSKrt5UkIKNGCJNXVju"
