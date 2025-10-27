@@ -21,8 +21,6 @@ func SetLastWatchTimeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		// TODO: add validation for st <= et, and eps > 0.5.
-		// TODO: add validation for et <= duration.
 		l := watchProgress.NewSetLastWatchTimeLogic(r.Context(), svcCtx)
 		err := l.SetLastWatchTime(&req)
 		if err != nil {

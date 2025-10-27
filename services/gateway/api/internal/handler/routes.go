@@ -19,7 +19,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
-					Path:    "/set-last-watch-time",
+					Path:    "/setLastWatchTime",
 					Handler: watchProgress.SetLastWatchTimeHandler(serverCtx),
 				},
 			}...,

@@ -2,6 +2,7 @@ package watchProgress
 
 import (
 	"context"
+	"errors"
 	"watch-progress-service/services/gateway/api/internal/svc"
 	"watch-progress-service/services/gateway/api/internal/types"
 
@@ -23,5 +24,16 @@ func NewSetLastWatchTimeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *SetLastWatchTimeLogic) SetLastWatchTime(req *types.SetWatchTimeReq) error {
+	if req.StartTime > req.EndTime {
+		return errors.New("start time must be less than end time")
+	}
+
+	if req.EndTime > req.Duration {
+		return errors.New("end time must be less than duration")
+	}
+
+	if req.EndTime-req.StartTime < 1 {
+		return nil
+	}
 	return l.svcCtx.Scylla.SetLastWatchTime(req)
 }

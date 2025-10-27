@@ -13,6 +13,7 @@ type (
 		episodeId     int32   `json:"episode_id"`
 		startTime     float32 `json:"start_time"`
 		endTime       float32 `json:"end_time"`
+		duration      float32 `json:"duration"`
 		lastWatchedAt string  `json:"last_watched_at"`
 	}
 )
@@ -24,6 +25,6 @@ type (
 )
 service watchProgress {
 	@handler SetLastWatchTime
-	post /set-last-watch-time (SetWatchTimeReq)
+	post /setLastWatchTime (SetWatchTimeReq)
 }
 
