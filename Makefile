@@ -11,10 +11,10 @@ test:
 	docker compose -f docker-compose.test.yaml down
 
 start-docker:
-	sudo docker compose -f docker-compose.yaml up -d
+	docker compose -f docker-compose.yaml up -d
 
 stop-docker:
-	sudo docker compose -f docker-compose.yaml down
+	docker compose -f docker-compose.yaml down
 
 run:
 	go run services/gateway/api/watchprogress.go

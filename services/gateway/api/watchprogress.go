@@ -3,11 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
-	"os"
-
 	"watch-progress-service/services/gateway/api/internal/config"
 	"watch-progress-service/services/gateway/api/internal/handler"
 	"watch-progress-service/services/gateway/api/internal/svc"
@@ -17,11 +14,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-	configFile := flag.String("f", os.Getenv("WATCH_PROGRESS_CONFIG_FILE"), "the config file")
+	configFile := flag.String("config", "services/gateway/api/etc/watchprogress.yaml", "config file path")
 	flag.Parse()
 
 	var c config.Config
