@@ -32,7 +32,9 @@ func (l *SetLastWatchTimeLogic) SetLastWatchTime(req *types.SetWatchTimeReq) err
 		return errors.New("end time must be less than duration")
 	}
 
-	if req.EndTime-req.StartTime < 1 {
+	// If the user has only watched less than half a second,
+	// we skip updating the database to avoid unnecessary writes for accidental or jitter/skipped progress updates.
+	if req.EndTime-req.StartTime < 0.5 {
 		return nil
 	}
 	return l.svcCtx.Scylla.SetLastWatchTime(req)

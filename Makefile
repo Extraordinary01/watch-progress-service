@@ -6,9 +6,9 @@ docs-generate:
 	goctl api swagger --api services/gateway/api/contract/watchProgress.api --dir services/gateway/api/docs/
 
 test:
-	sudo docker compose -f docker-compose.test.yaml up -d
+	docker compose -f docker-compose.test.yaml up -d
 	go test -v -tags integration $$(go list ./... | grep -Ev '/constants|/third_party')
-	sudo docker compose -f docker-compose.test.yaml down
+	docker compose -f docker-compose.test.yaml down
 
 start-docker:
 	sudo docker compose -f docker-compose.yaml up -d
