@@ -1,0 +1,86 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/v1/setLastWatchTime": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "SetLastWatchTime",
+        "operationId": "watchProgressSetLastWatchTime",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "user_id",
+                "movie_id",
+                "episode_id",
+                "start_time",
+                "end_time",
+                "duration",
+                "last_watched_at"
+              ],
+              "properties": {
+                "duration": {
+                  "type": "number"
+                },
+                "end_time": {
+                  "type": "number"
+                },
+                "episode_id": {
+                  "type": "integer"
+                },
+                "last_watched_at": {
+                  "type": "string"
+                },
+                "movie_id": {
+                  "type": "integer"
+                },
+                "start_time": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {}
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-10-28 12:29:41",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}

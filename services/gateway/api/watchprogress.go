@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/joho/godotenv"
 	"log"
+	"net/http"
 	"os"
 
 	"watch-progress-service/services/gateway/api/internal/config"
@@ -14,20 +16,23 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", os.Getenv("WATCH_PROGRESS_CONFIG_FILE"), "the config file")
-
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+	configFile := flag.String("f", os.Getenv("WATCH_PROGRESS_CONFIG_FILE"), "the config file")
 	flag.Parse()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.Rest)
+	server := rest.MustNewServer(c.Rest, rest.WithFileServer("/api/doc", http.Dir("./services/gateway/api/docs")))
 	defer server.Stop()
 
 	ctx, err := svc.NewServiceContext(c)
 	if err != nil {
-		log.Fatalf("Coldn't setup context, error: %s", err)
+		log.Fatalf("Couldn't setup context, error: %s", err)
 	}
 
 	handler.RegisterHandlers(server, ctx)

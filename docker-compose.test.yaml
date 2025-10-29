@@ -1,0 +1,53 @@
+services:
+  scylla:
+    image: scylladb/scylla:latest
+    container_name: test_scylla
+    command: --overprovisioned 1 --smp 1
+    ports:
+      - "9042:9042"  # CQL port for connecting from host
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "exit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - SCYLLA_JMX_ADDR=0.0.0.0  # Optional: For monitoring if needed
+
+#  postgres:
+#    image: postgres:16
+#    container_name: test_postgres
+#    environment:
+#      POSTGRES_USER: testuser
+#      POSTGRES_PASSWORD: testpass
+#      POSTGRES_DB: testdb
+#    ports:
+#      - "5432:5432"  # Standard Postgres port
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U testuser"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data  # Optional: Persist data if needed for repeated tests
+#
+#  clickhouse:
+#    image: clickhouse/clickhouse-server:24
+#    container_name: test_clickhouse
+#    ports:
+#      - "8123:8123"  # HTTP interface
+#      - "9000:9000"  # Native protocol
+#    environment:
+#      CLICKHOUSE_DB: testdb
+#      CLICKHOUSE_USER: testuser
+#      CLICKHOUSE_PASSWORD: testpass
+#    healthcheck:
+#      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    volumes:
+#      - clickhouse_data:/var/lib/clickhouse  # Optional: Persist data
+#
+#volumes:
+#  postgres_data:
+#  clickhouse_data:
